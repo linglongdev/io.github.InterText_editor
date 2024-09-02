@@ -1,0 +1,28 @@
+version: "1"
+
+package:
+  id: io.github.InterText_editor
+  name: InterText_editor
+  version: 1.6.3.1
+  kind: app
+  description: |
+    Editor for aligned parallel texts (personal desktop application).
+
+command:
+  - /opt/apps/io.github.InterText_editor/files/bin/InterText
+
+base: org.deepin.foundation/23.0.0
+runtime: org.deepin.Runtime/23.0.1
+
+sources:
+  - kind: git
+    url: https://github.com/wjyrich/InterText_editor.git
+    version: master
+    commit: 96f24c6c73e00dc45fe1b5b166908468b03b075d
+
+build: |
+  cd /project/linglong/sources/InterText_editor.git
+  git apply ../../../0001-install.patch
+  qmake -makefile PREFIX=${PREFIX} LIB_INSTALL_DIR=${PREFIX}/lib/${TRIPLET}
+  make -j$(nproc)
+  make install
